@@ -16,14 +16,25 @@
     --accent: #c9a96e;
     --accent-dim: rgba(201,169,110,0.15);
   }
+  body.light-mode {
+    --bg: #f0ede8;
+    --surface: #e8e4dc;
+    --border: rgba(0,0,0,0.08);
+    --text: #0a0a0a;
+    --muted: rgba(10,10,10,0.6);
+    --accent: #a88a50;
+    --accent-dim: rgba(168,138,80,0.15);
+  }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; }
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 4rem; border-bottom: 1px solid var(--border); background: rgba(10,10,10,0.85); backdrop-filter: blur(12px); }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 4rem; border-bottom: 1px solid var(--border); background: var(--bg); backdrop-filter: blur(12px); transition: background 0.3s; }
   .nav-logo { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.08em; color: var(--accent); }
-  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links { display: flex; gap: 2.5rem; align-items: center; }
   .nav-links a { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--text); }
+  #theme-toggle { cursor: pointer; background: none; border: 1px solid var(--border); color: var(--muted); padding: 5px 10px; font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.2s; }
+  #theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
   .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 4rem 4rem; position: relative; overflow: hidden; }
   .hero::before { content: ''; position: absolute; top: -200px; right: -100px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%); pointer-events: none; }
   .hero-tag { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s ease forwards; }
@@ -61,9 +72,9 @@
   .skill-block:hover { background: var(--surface); }
   .skill-category { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
   .skill-list { list-style: none; }
-  .skill-list li { font-size: 13px; color: var(--muted); padding: 0.3rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; align-items: center; gap: 8px; }
+  .skill-list li { font-size: 13px; color: var(--muted); padding: 0.3rem 0; border-bottom: 1px solid rgba(128,128,128,0.1); display: flex; align-items: center; gap: 8px; }
   .skill-list li::before { content: '—'; color: var(--accent); font-family: 'DM Mono', monospace; font-size: 10px; }
-  .award-block { border: 1px solid rgba(201,169,110,0.25); padding: 2.5rem; position: relative; background: var(--accent-dim); }
+  .award-block { border: 1px solid var(--accent-dim); padding: 2.5rem; position: relative; background: var(--accent-dim); }
   .award-icon { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 1rem; }
   .award-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
   .award-sub { font-size: 14px; color: var(--muted); }
@@ -113,6 +124,7 @@
     <a href="#skills">Skills</a>
     <a href="#education">Education</a>
     <a href="#contact">Contact</a>
+    <button id="theme-toggle">Theme</button>
   </div>
 </nav>
 <section class="hero">
@@ -216,8 +228,6 @@
     </div>
     <div class="contact-links">
       <a href="https://linkedin.com/in/ayhan-gurbangeldiyev" target="_blank" class="contact-link">LinkedIn<span>linkedin.com/in/ayhan-gurbangeldiyev ↗</span></a>
-      <a href="https://github.com/Ayhan-Gurbangeldiyev" target="_blank" class="contact-link">GitHub<span>github.com/Ayhan-Gurbangeldiyev ↗</span></a>
-      <a href="mailto:ayhan@ayhangurbangeldiyev.com" class="contact-link">Email<span>ayhan@ayhangurbangeldiyev.com ↗</span></a>
     </div>
   </div>
 </section>
@@ -236,6 +246,12 @@
     setTimeout(type, deleting ? 40 : 80);
   }
   type();
+  
+  const toggle = document.getElementById('theme-toggle');
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+  });
+
   const reveals = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
   reveals.forEach(r => obs.observe(r));
