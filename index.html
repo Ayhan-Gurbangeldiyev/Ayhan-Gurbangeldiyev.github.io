@@ -3,81 +3,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ayhan Gurbangeldiyev — AI Engineer</title>
+<title>Ayhan Gurbangeldiyev — Agentic AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #ffffff;
-    --text: #000000;
-    --link: #1a0dab;
-    --muted: #666;
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ede8;
+    --muted: rgba(240,237,232,0.45);
+    --accent: #c9a96e;
+    --accent-dim: rgba(201,169,110,0.15);
   }
-  body.dark-mode {
-    --bg: #1a1a1a;
-    --text: #f0f0f0;
-    --link: #9db4ff;
-    --muted: #bbb;
+  body.light-mode {
+    --bg: #f0ede8;
+    --surface: #e8e4dc;
+    --border: rgba(0,0,0,0.08);
+    --text: #0a0a0a;
+    --muted: rgba(10,10,10,0.6);
+    --accent: #a88a50;
+    --accent-dim: rgba(168,138,80,0.15);
   }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Times New Roman', serif;
-    font-size: 18px;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    transition: background 0.3s, color 0.3s;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 4rem; border-bottom: 1px solid var(--border); background: var(--bg); backdrop-filter: blur(12px); transition: background 0.3s; }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.08em; color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; align-items: center; }
+  .nav-links a { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  #theme-toggle { cursor: pointer; background: none; border: 1px solid var(--border); color: var(--muted); padding: 5px 10px; font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.2s; }
+  #theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 4rem 4rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -200px; right: -100px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%); pointer-events: none; }
+  .hero-tag { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s ease forwards; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.25rem; opacity: 0; animation: fadeUp 0.8s ease 0.15s forwards; }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+  .hero-subtitle { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); margin-top: 1.5rem; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
+  .typewriter { color: var(--text); border-right: 2px solid var(--accent); padding-right: 4px; animation: blink 1s step-end infinite; }
+  .hero-bio { max-width: 560px; font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 3rem; opacity: 0; animation: fadeUp 0.8s ease 0.45s forwards; }
+  .hero-bio strong { color: var(--text); font-weight: 500; }
+  .hero-cta { display: flex; gap: 1rem; align-items: center; opacity: 0; animation: fadeUp 0.8s ease 0.6s forwards; }
+  .btn-primary { display: inline-block; padding: 0.75rem 1.75rem; background: var(--accent); color: #0a0a0a; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: opacity 0.2s; }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-ghost { display: inline-block; padding: 0.75rem 1.75rem; border: 1px solid var(--border); color: var(--muted); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .stats-bar { display: flex; gap: 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 0 4rem; }
+  .stat { flex: 1; padding: 2rem; border-right: 1px solid var(--border); text-align: center; }
+  .stat:last-child { border-right: none; }
+  .stat-number { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--accent); display: block; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; }
+  section { padding: 5rem 4rem; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::after { content: ''; height: 1px; width: 60px; background: var(--border); }
+  .exp-grid { display: grid; gap: 1px; background: var(--border); }
+  .exp-item { background: var(--bg); padding: 2.5rem; display: grid; grid-template-columns: 140px 1fr; gap: 2rem; transition: background 0.2s; }
+  .exp-item:hover { background: var(--surface); }
+  .exp-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; padding-top: 3px; }
+  .exp-current { display: inline-block; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; background: var(--accent-dim); color: var(--accent); padding: 2px 8px; margin-bottom: 0.5rem; }
+  .exp-role { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 0.25rem; }
+  .exp-company { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); margin-bottom: 0.75rem; }
+  .exp-desc { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 1rem; }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; padding: 3px 10px; border: 1px solid var(--border); color: var(--muted); }
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+  .skill-block { background: var(--bg); padding: 2rem; transition: background 0.2s; }
+  .skill-block:hover { background: var(--surface); }
+  .skill-category { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+  .skill-list { list-style: none; }
+  .skill-list li { font-size: 13px; color: var(--muted); padding: 0.3rem 0; border-bottom: 1px solid rgba(128,128,128,0.1); display: flex; align-items: center; gap: 8px; }
+  .skill-list li::before { content: '—'; color: var(--accent); font-family: 'DM Mono', monospace; font-size: 10px; }
+  .award-block { border: 1px solid var(--accent-dim); padding: 2.5rem; position: relative; background: var(--accent-dim); }
+  .award-icon { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 1rem; }
+  .award-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .award-sub { font-size: 14px; color: var(--muted); }
+  .awards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .edu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); }
+  .edu-item { background: var(--bg); padding: 2rem; transition: background 0.2s; }
+  .edu-item:hover { background: var(--surface); }
+  .edu-school { font-size: 15px; font-weight: 500; margin-bottom: 0.25rem; }
+  .edu-degree { font-size: 13px; color: var(--muted); margin-bottom: 0.5rem; }
+  .edu-year { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); }
+  .contact-section { background: var(--surface); border-top: 1px solid var(--border); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .contact-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; line-height: 1.1; }
+  .contact-title em { font-style: italic; color: var(--accent); font-weight: 400; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 13px; letter-spacing: 0.05em; transition: all 0.2s; }
+  .contact-link:hover { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); }
+  .contact-link span { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .contact-link:hover span { color: var(--accent); }
+  footer { padding: 2rem 4rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  footer p { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes blink { 50% { border-color: transparent; } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    section { padding: 3.5rem 1.5rem; }
+    .stats-bar { margin: 0 1.5rem; flex-wrap: wrap; }
+    .stat { min-width: 50%; border-bottom: 1px solid var(--border); }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .awards-grid { grid-template-columns: 1fr; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
   }
-  header { margin-bottom: 40px; }
-  h1 { font-size: 32px; font-weight: normal; margin-bottom: 10px; }
-  h2 { font-size: 22px; margin-top: 40px; margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
-  a { color: var(--link); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .meta { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
-  .nav { margin-bottom: 30px; font-size: 14px; }
-  .content-list { list-style: none; }
-  .content-list li { margin-bottom: 15px; }
-  .date { color: var(--muted); margin-right: 15px; font-family: monospace; }
-  #theme-toggle { cursor: pointer; background: none; border: 1px solid var(--text); color: var(--text); padding: 5px 10px; font-family: monospace; margin-top: 10px; }
 </style>
 </head>
 <body>
-  <header>
-    <h1>Ayhan Gurbangeldiyev</h1>
-    <div class="meta">AI Engineer · Istanbul</div>
-    <div class="nav">
-      <a href="https://linkedin.com/in/ayhan-gurbangeldiyev">LinkedIn</a> | 
-      <a href="https://github.com/Ayhan-Gurbangeldiyev">GitHub</a> | 
-      <button id="theme-toggle">Toggle Theme</button>
+<nav>
+  <div class="nav-logo">AG — 2026</div>
+  <div class="nav-links">
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+    <button id="theme-toggle">Theme</button>
+  </div>
+</nav>
+<section class="hero">
+  <div class="hero-tag">// Agentic AI Engineer · Istanbul, Türkiye</div>
+  <h1>Ayhan<br><em>Gurbangeldiyev</em></h1>
+  <div class="hero-subtitle">Building → <span class="typewriter" id="typewriter"></span></div>
+  <p class="hero-bio">I turn complex enterprise workflows into <strong>autonomous AI-driven systems</strong> — where agents don't just assist, they act. Specializing in <strong>Agentic System Design</strong>, Multi-Agent Orchestration, and Intelligent Automation at the intersection of LLMs and production-grade infrastructure.</p>
+  <div class="hero-cta">
+    <a href="#contact" class="btn-primary">Get in Touch</a>
+    <a href="https://linkedin.com/in/ayhan-gurbangeldiyev" target="_blank" class="btn-ghost">LinkedIn ↗</a>
+  </div>
+</section>
+<div class="stats-bar reveal">
+  <div class="stat"><span class="stat-number">210</span><span class="stat-label">Teams Competed Against</span></div>
+  <div class="stat"><span class="stat-number">3+</span><span class="stat-label">Years Building AI</span></div>
+  <div class="stat"><span class="stat-number">1st</span><span class="stat-label">Jury Special Prize</span></div>
+  <div class="stat"><span class="stat-number">1,178</span><span class="stat-label">LinkedIn Followers</span></div>
+</div>
+<section id="experience">
+  <div class="section-label">Experience</div>
+  <div class="exp-grid reveal">
+    <div class="exp-item">
+      <div class="exp-date">Mar 2026<br>Present</div>
+      <div>
+        <div class="exp-current">Current</div>
+        <div class="exp-role">Artificial Intelligence Engineer</div>
+        <div class="exp-company">Turkish Technology · Internship · Istanbul</div>
+        <div class="exp-desc">Developing autonomous AI agents and multi-agent systems for enterprise workflow automation. Designing agentic workflows and agent orchestration pipelines using UiPath Maestro. Building and integrating multi-agent systems with LangGraph for context-aware enterprise automation.</div>
+        <div class="exp-tags"><span class="tag">UiPath Maestro</span><span class="tag">LangGraph</span><span class="tag">Agent Builder</span><span class="tag">RAG</span><span class="tag">n8n</span><span class="tag">MCP</span><span class="tag">LlamaIndex</span><span class="tag">Pinecone</span></div>
+      </div>
     </div>
-  </header>
+    <div class="exp-item">
+      <div class="exp-date">Mar 2025<br>Jun 2025</div>
+      <div>
+        <div class="exp-role">Artificial Intelligence Engineer</div>
+        <div class="exp-company">Inventra · Internship · Istanbul</div>
+        <div class="exp-desc">Developed an AI-powered personalized skincare recommendation system combining Computer Vision and LLMs. Built object detection and image classification models with YOLO for real-time skin analysis. Integrated LLMs to generate personalized product recommendations based on visual AI analysis.</div>
+        <div class="exp-tags"><span class="tag">YOLO</span><span class="tag">Computer Vision</span><span class="tag">LLM Integration</span><span class="tag">Python</span></div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-date">Oct 2024<br>Jul 2025</div>
+      <div>
+        <div class="exp-role">AI/ML Engineer</div>
+        <div class="exp-company">Upwork · Freelance · Remote</div>
+        <div class="exp-desc">Delivered AI automation solutions for global clients — intelligent chatbots, workflow automation and API development. Built and deployed RESTful APIs with FastAPI. Managed client projects independently from scoping to on-time delivery.</div>
+        <div class="exp-tags"><span class="tag">LangChain</span><span class="tag">FastAPI</span><span class="tag">OpenAI API</span><span class="tag">RPA</span><span class="tag">Python</span></div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-date">Nov 2024<br>May 2025</div>
+      <div>
+        <div class="exp-role">AI Development Team Member</div>
+        <div class="exp-company">TEKNOFEST 2025 · Medipol University</div>
+        <div class="exp-desc">Contributed to the AI Development Team at Morvia in TEKNOFEST 2025 — Technological Applications in Psychology Competition. Supported the development of an AI-powered psychology application using Computer Vision.</div>
+        <div class="exp-tags"><span class="tag">Computer Vision</span><span class="tag">TEKNOFEST</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="skills" style="background: var(--surface);">
+  <div class="section-label">Technical Stack</div>
+  <div class="skills-grid reveal">
+    <div class="skill-block">
+      <div class="skill-category">Agentic Systems</div>
+      <ul class="skill-list"><li>LangGraph</li><li>UiPath Maestro &amp; Agent Builder</li><li>Multi-Agent Orchestration</li><li>Tool-Calling Architectures</li><li>Human-in-the-Loop Governance</li><li>MCP (Model Context Protocol)</li></ul>
+    </div>
+    <div class="skill-block">
+      <div class="skill-category">AI &amp; ML</div>
+      <ul class="skill-list"><li>RAG Pipelines</li><li>LLM Integration (OpenAI, Claude)</li><li>LlamaIndex &amp; Pinecone</li><li>Computer Vision (YOLO)</li><li>LangChain</li><li>Intelligent Automation &amp; RPA</li></ul>
+    </div>
+    <div class="skill-block">
+      <div class="skill-category">Engineering</div>
+      <ul class="skill-list"><li>Python · FastAPI · Pydantic</li><li>n8n Workflow Automation</li><li>RESTful API Development</li><li>Data Pipelines</li><li>Scrum / Jira</li><li>Cloud-Native Infrastructure</li></ul>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="section-label">Recognition</div>
+  <div class="awards-grid reveal">
+    <div class="award-block"><div class="award-icon">⬡ JURY SPECIAL PRIZE</div><div class="award-title">Best AI &amp; Data Science Project</div><div class="award-sub">Yapay Zeka ve Teknoloji Akademisi · Selected among 210 competing teams at the Graduation Bootcamp. End-to-end AI application from data pipeline to production deployment.</div></div>
+    <div class="award-block"><div class="award-icon">⬡ TEKNOFEST 2025</div><div class="award-title">AI Development Team</div><div class="award-sub">Morvia / Medipol University · Contributed to an AI-powered psychology application for the Technological Applications in Psychology Competition.</div></div>
+    <div class="award-block"><div class="award-icon">⬡ ASPIRE LEADERS PROGRAM</div><div class="award-title">Harvard-Founded Leadership Program</div><div class="award-sub">Aspire Institute · Globally competitive leadership development program focused on personal growth, critical thinking and social impact. Aug–Oct 2025.</div></div>
+    <div class="award-block"><div class="award-icon">⬡ DEFENCE INDUSTRY SUMMIT</div><div class="award-title">SSB Career &amp; Competency Meeting</div><div class="award-sub">Secretariat of Defence Industries · Selected participant for the national career summit covering AI, cybersecurity, and digital transformation in defence.</div></div>
+  </div>
+</section>
+<section id="education" style="background: var(--surface);">
+  <div class="section-label">Education</div>
+  <div class="edu-grid reveal">
+    <div class="edu-item"><div class="edu-school">Bahcesehir University</div><div class="edu-degree">B.Sc. Artificial Intelligence Engineering</div><div class="edu-year">Oct 2022 – Jul 2026</div><div style="margin-top: 0.75rem;"><div class="exp-tags"><span class="tag">AI Society (AIS)</span><span class="tag">Software Club</span><span class="tag">BAU International</span></div></div></div>
+    <div class="edu-item"><div class="edu-school">Yapay Zeka ve Teknoloji Akademisi</div><div class="edu-degree">AI Applications Developer</div><div class="edu-year">Nov 2024 – Aug 2025 · Jury Special Prize</div><div style="margin-top: 0.75rem;"><div class="exp-tags"><span class="tag">LLMs</span><span class="tag">RAG</span><span class="tag">Hackathon</span><span class="tag">Bootcamp</span></div></div></div>
+    <div class="edu-item"><div class="edu-school">Aspire Institute</div><div class="edu-degree">Leadership Development Program</div><div class="edu-year">Aug 2025 – Oct 2025 · Harvard-Founded</div></div>
+    <div class="edu-item" style="display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(201,169,110,0.2);"><div style="text-align: center;"><div style="font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 0.5rem;">CURRENTLY AVAILABLE</div><div style="font-size: 13px; color: var(--muted);">Open to full-time AI Engineering roles</div></div></div>
+  </div>
+</section>
+<section id="contact" class="contact-section">
+  <div class="contact-grid reveal">
+    <div>
+      <div class="section-label">Contact</div>
+      <div class="contact-title">Let's build<br><em>something</em><br>intelligent.</div>
+    </div>
+    <div class="contact-links">
+      <a href="https://linkedin.com/in/ayhan-gurbangeldiyev" target="_blank" class="contact-link">LinkedIn<span>linkedin.com/in/ayhan-gurbangeldiyev ↗</span></a>
+      <a href="https://github.com/Ayhan-Gurbangeldiyev" target="_blank" class="contact-link">GitHub<span>github.com/Ayhan-Gurbangeldiyev ↗</span></a>
+      <a href="mailto:ayhan@ayhangurbangeldiyev.com" class="contact-link">Email<span>ayhan@ayhangurbangeldiyev.com ↗</span></a>
+    </div>
+  </div>
+</section>
+<footer>
+  <p>© 2026 Ayhan Gurbangeldiyev</p>
+  <p>Agentic AI Engineer · Istanbul, Türkiye</p>
+</footer>
+<script>
+  const words = ['Agentic AI Systems','Multi-Agent Pipelines','RAG Architectures','Intelligent Automation','LangGraph Workflows','Enterprise AI Solutions'];
+  let wi = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typewriter');
+  function type() {
+    const word = words[wi];
+    if (!deleting) { el.textContent = word.slice(0, ++ci); if (ci === word.length) { deleting = true; setTimeout(type, 2000); return; } }
+    else { el.textContent = word.slice(0, --ci); if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; } }
+    setTimeout(type, deleting ? 40 : 80);
+  }
+  type();
+  
+  const toggle = document.getElementById('theme-toggle');
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+  });
 
-  <p>I turn complex enterprise workflows into autonomous AI-driven systems. Specializing in AI Engineering and Intelligent Automation.</p>
-
-  <h2>Experience</h2>
-  <ul class="content-list">
-    <li><span class="date">2026-Present</span> Artificial Intelligence Engineer, Turkish Technology (Internship)</li>
-    <li><span class="date">2025-2025</span> Artificial Intelligence Engineer, Inventra (Internship)</li>
-    <li><span class="date">2024-2025</span> AI/ML Engineer, Upwork (Freelance)</li>
-  </ul>
-
-  <h2>Projects & Recognition</h2>
-  <ul class="content-list">
-    <li><span class="date">2025</span> Best AI & Data Science Project (Jury Special Prize)</li>
-    <li><span class="date">2025</span> AI Development Team, TEKNOFEST 2025</li>
-    <li><span class="date">2025</span> Aspire Leaders Program (Harvard-Founded)</li>
-  </ul>
-
-  <h2>Education</h2>
-  <ul class="content-list">
-    <li><span class="date">2022-2026</span> B.Sc. Artificial Intelligence Engineering, Bahcesehir University</li>
-  </ul>
-
-  <script>
-    const toggle = document.getElementById('theme-toggle');
-    toggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-    });
-  </script>
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+  reveals.forEach(r => obs.observe(r));
+</script>
 </body>
 </html>
